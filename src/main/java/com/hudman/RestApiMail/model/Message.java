@@ -9,12 +9,12 @@ import java.util.UUID;
 public class Message {
 
     @PrimaryKey
-    private UUID id;
+    private int magic_number;
 
     private String email;
     private String title;
     private String content;
-    private int magic_number;
+
 
     public Message() {}
 
@@ -24,15 +24,7 @@ public class Message {
         this.content = content;
         this.magic_number = magic_number;
     }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
+    
     public String getEmail() {
         return email;
     }
