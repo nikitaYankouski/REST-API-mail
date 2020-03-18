@@ -39,10 +39,6 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-<<<<<<< HEAD
-
-		=======
-		>>>>>>> parent of 6afcbec... add dependecy spring-boot-starter-mail
 	</dependencies>
 
 	<build>
