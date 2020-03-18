@@ -24,7 +24,7 @@ public class Message {
         this.content = content;
         this.magic_number = magic_number;
     }
-    
+
     public String getEmail() {
         return email;
     }
