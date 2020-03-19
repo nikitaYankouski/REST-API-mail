@@ -15,4 +15,6 @@ public interface IMessageService {
     void deleteMessage(Message message);
 
     void deleteListMessages(List<Message> messageList);
+
+    void deleteMessagesOlderFiveMin();
 }

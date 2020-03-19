@@ -3,6 +3,7 @@ package com.hudman.RestApiMail.model;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Table
@@ -15,6 +16,8 @@ public class Message {
     private String title;
     private String content;
     private int magicNumber;
+
+    private LocalDateTime localDateTimeCreateMessage;
 
     public Message() {}
 
@@ -58,11 +61,11 @@ public class Message {
         this.magicNumber = magicNumber;
     }
 
-    @Override // !!
-    public String toString() {
-        return "Message{" +
-                "title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                '}';
+    public LocalDateTime getLocalDateTimeCreateMessage() {
+        return localDateTimeCreateMessage;
+    }
+
+    public void setLocalDateTimeCreateMessage(LocalDateTime localDateTimeCreateMessage) {
+        this.localDateTimeCreateMessage = localDateTimeCreateMessage;
     }
 }

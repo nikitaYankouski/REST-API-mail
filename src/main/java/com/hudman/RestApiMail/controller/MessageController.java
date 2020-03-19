@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.cassandra.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
@@ -33,6 +35,7 @@ public class MessageController {
     @PostMapping(value = "/api/message")
     public @ResponseBody ResponseEntity<Message> createMessage(@RequestBody final Message message) {
         message.setId(UUID.randomUUID());
+        message.setLocalDateTimeCreateMessage(LocalDateTime.now());
         Message messageBuf = messageService.createMessage(message);
         return new ResponseEntity<>(messageBuf, HttpStatus.OK);
     }
