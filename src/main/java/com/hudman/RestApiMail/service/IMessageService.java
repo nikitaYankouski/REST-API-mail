@@ -10,5 +10,9 @@ public interface IMessageService {
 
     Iterable<Message> getMessages();
 
-    List<Message> getListByMagicNumber(int magic_number);
+    List<Message> getListByMagicNumber(int magicNumber);
+
+    void deleteMessage(Message message);
+
+    void deleteListMessages(List<Message> messageList);
 }

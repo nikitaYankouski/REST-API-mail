@@ -25,7 +25,18 @@ public class MessageServiceImpl implements IMessageService {
 
     @Override
     public List<Message> getListByMagicNumber(int magic_number) {
-        List<Message> messageList = messagesRepository.findAllByMagic_number(magic_number);
-        return messageList;
+        return messagesRepository.findAllByMagicNumber(magic_number);
+    }
+
+    @Override
+    public void deleteListMessages(List<Message> messageList) {
+        messageList.forEach(
+                message -> deleteMessage(message)
+        );
+    }
+
+    @Override
+    public void deleteMessage(Message message) {
+        messagesRepository.delete(message);
     }
 }

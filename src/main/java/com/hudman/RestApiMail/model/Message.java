@@ -1,7 +1,5 @@
 package com.hudman.RestApiMail.model;
 
-import com.datastax.driver.core.DataType;
-import org.springframework.data.cassandra.core.mapping.CassandraType;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
 
@@ -16,7 +14,7 @@ public class Message {
     private String email;
     private String title;
     private String content;
-    private int magic_number;
+    private int magicNumber;
 
     public Message() {}
 
@@ -52,12 +50,12 @@ public class Message {
         this.content = content;
     }
 
-    public int getMagic_number() {
-        return magic_number;
+    public int getMagicNumber() {
+        return magicNumber;
     }
 
-    public void setMagic_number(int magic_number) {
-        this.magic_number = magic_number;
+    public void setMagicNumber(int magicNumber) {
+        this.magicNumber = magicNumber;
     }
 
     @Override // !!
