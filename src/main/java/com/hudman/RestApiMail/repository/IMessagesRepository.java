@@ -11,4 +11,6 @@ public interface IMessagesRepository extends CassandraRepository<Message, Intege
     @AllowFiltering
     List<Message> findAllByMagicNumber(int magicNumber);
 
+    @AllowFiltering
+    List<Message> findAllByEmail(String email);
 }

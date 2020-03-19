@@ -19,8 +19,8 @@ public class MessageServiceImpl implements IMessageService {
     }
 
     @Override
-    public Iterable<Message> getMessages() {
-        return messagesRepository.findAll();
+    public List<Message> getMessagesByEmail(String email) {
+        return messagesRepository.findAllByEmail(email);
     }
 
     @Override

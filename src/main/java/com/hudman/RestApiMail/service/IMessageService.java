@@ -8,7 +8,7 @@ public interface IMessageService {
 
     Message createMessage(Message message);
 
-    Iterable<Message> getMessages();
+    List<Message> getMessagesByEmail(String email);
 
     List<Message> getListByMagicNumber(int magicNumber);
 

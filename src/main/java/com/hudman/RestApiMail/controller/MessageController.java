@@ -24,8 +24,14 @@ public class MessageController {
     @Autowired
     EmailService emailService;
 
+    @GetMapping(value = "api/messages/{emailValue}")
+    public @ResponseBody ResponseEntity<List<Message>> getMessage(@PathVariable final String emailValue) {
+        List<Message> getMessageList = messageService.getMessagesByEmail(emailValue);
+        return new ResponseEntity<List<Message>>(getMessageList, HttpStatus.OK);
+    }
+
     @PostMapping(value = "/api/message")
-    public ResponseEntity<Message> createMessage(@RequestBody final Message message) {
+    public @ResponseBody ResponseEntity<Message> createMessage(@RequestBody final Message message) {
         message.setId(UUID.randomUUID());
         Message messageBuf = messageService.createMessage(message);
         return new ResponseEntity<>(messageBuf, HttpStatus.OK);
