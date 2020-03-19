@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Iterator;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -23,5 +24,11 @@ public class MessageController {
         message.setId(UUID.randomUUID());
         Message messageBuf = messageService.createMessage(message);
         return new ResponseEntity<>(messageBuf, HttpStatus.OK);
+    }
+
+    @PostMapping("/api/send")
+    public ResponseEntity<Message> sendMessage(@RequestParam int magic_number) {
+        List<Message> messageList = messageService.getListByMagicNumber(magic_number);
+
     }
 }
