@@ -1,5 +1,7 @@
 package com.hudman.RestApiMail.model;
 
+import com.datastax.driver.core.DataType;
+import org.springframework.data.cassandra.core.mapping.CassandraType;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
 
@@ -9,13 +11,22 @@ import java.util.UUID;
 public class Message {
 
     @PrimaryKey
-    private String email;
+    private UUID id;
 
+    private String email;
     private String title;
     private String content;
     private int magic_number;
 
     public Message() {}
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
     public String getEmail() {
         return email;
