@@ -37,7 +37,7 @@ public class CassandraConfig extends AbstractCassandraConfiguration {
 
     @Override
     public String[] getEntityBasePackages() {
-        return new String[]{"com.hudman.RestApiMail.model"};
+        return new String[]{"com.hudman.RestApiMail.entity"};
     }
 
 }
