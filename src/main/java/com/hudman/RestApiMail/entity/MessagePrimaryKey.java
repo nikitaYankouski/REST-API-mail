@@ -15,15 +15,12 @@ public class MessagePrimaryKey implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @PrimaryKeyColumn(name = "magicNumber", type = PrimaryKeyType.PARTITIONED)
-    @Column
     private int magicNumber;
 
     @PrimaryKeyColumn(name = "email", ordinal = 0)
-    @Column
     private String email;
 
     @PrimaryKeyColumn(name = "idPrimaryKeyEmail", ordinal = 1, ordering = Ordering.DESCENDING)
-    @Column
     private UUID uuid;
 
     public int getMagicNumber() {
