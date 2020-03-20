@@ -1,7 +1,5 @@
 package com.hudman.RestApiMail.service;
 
-import com.hudman.RestApiMail.entity.MessageEntity;
-import com.hudman.RestApiMail.entity.MessagePrimaryKey;
 import com.hudman.RestApiMail.model.Message;
 import com.hudman.RestApiMail.repository.IMessagesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class MessageServiceImpl implements IMessageService {
@@ -19,30 +16,30 @@ public class MessageServiceImpl implements IMessageService {
     private IMessagesRepository messagesRepository;
 
     @Override
-    public MessageEntity createMessage(Message message) {
-        return messagesRepository.save(requestObjectToEntity(message));
+    public Message createMessage(Message message) {
+        return messagesRepository.save(message);
     }
 
     @Override
-    public List<MessageEntity> getMessagesByEmail(String email) {
-        return messagesRepository.findAllByMessagePrimaryKey_Email(email);
+    public List<Message> getMessagesByEmail(String email) {
+        return messagesRepository.findAllByEmail(email);
     }
 
     @Override
-    public List<MessageEntity> getListByMagicNumber(int magic_number) {
-        return messagesRepository.findAllByMessagePrimaryKey_MagicNumber(magic_number);
+    public List<Message> getListByMagicNumber(int magic_number) {
+        return messagesRepository.findAllByMagicNumber(magic_number);
     }
 
     @Override
-    public void deleteListMessages(List<MessageEntity> messageEntityList) {
-        messageEntityList.forEach(
+    public void deleteListMessages(List<Message> messageList) {
+        messageList.forEach(
                 message -> deleteMessage(message)
         );
     }
 
     @Override
-    public void deleteMessage(MessageEntity messageEntity) {
-        messagesRepository.delete(messageEntity);
+    public void deleteMessage(Message message) {
+        messagesRepository.delete(message);
     }
 
     @Override
@@ -55,18 +52,5 @@ public class MessageServiceImpl implements IMessageService {
                         deleteMessage(message);
                 }
         );
-    }
-
-    public MessageEntity requestObjectToEntity(Message message) {
-        MessagePrimaryKey messagePrimaryKey = new MessagePrimaryKey();
-
-        messagePrimaryKey.setMagicNumber(message.getMagicNumber());
-        messagePrimaryKey.setEmail(message.getEmail());
-        messagePrimaryKey.setUuid(UUID.randomUUID());
-
-        MessageEntity messageEntity = new MessageEntity(messagePrimaryKey, LocalDateTime.now(),
-                message.getTitle(), message.getContent());
-
-        return messageEntity;
     }
 }

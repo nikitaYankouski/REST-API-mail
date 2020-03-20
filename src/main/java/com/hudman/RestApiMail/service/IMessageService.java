@@ -1,21 +1,20 @@
 package com.hudman.RestApiMail.service;
 
-import com.hudman.RestApiMail.entity.MessageEntity;
 import com.hudman.RestApiMail.model.Message;
 
 import java.util.List;
 
 public interface IMessageService {
 
-    MessageEntity createMessage(Message message);
+    Message createMessage(Message message);
 
-    List<MessageEntity> getMessagesByEmail(String email);
+    List<Message> getMessagesByEmail(String email);
 
-    List<MessageEntity> getListByMagicNumber(int magicNumber);
+    List<Message> getListByMagicNumber(int magicNumber);
 
-    void deleteMessage(MessageEntity messageEntity);
+    void deleteMessage(Message message);
 
-    void deleteListMessages(List<MessageEntity> messageEntityList);
+    void deleteListMessages(List<Message> messageList);
 
     void deleteMessagesOlderFiveMin();
 }

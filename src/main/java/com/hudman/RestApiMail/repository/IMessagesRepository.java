@@ -1,17 +1,16 @@
 package com.hudman.RestApiMail.repository;
 
-import com.hudman.RestApiMail.entity.MessageEntity;
-import com.hudman.RestApiMail.entity.MessagePrimaryKey;
+import com.hudman.RestApiMail.model.Message;
+import org.springframework.data.cassandra.repository.AllowFiltering;
 import org.springframework.data.cassandra.repository.CassandraRepository;
 
 import java.util.List;
-import java.util.UUID;
 
 
-public interface IMessagesRepository extends CassandraRepository<MessageEntity, MessagePrimaryKey> {
+public interface IMessagesRepository extends CassandraRepository<Message, Integer> {
+    @AllowFiltering
+    List<Message> findAllByMagicNumber(int magicNumber);
 
-    List<MessageEntity> findAllByMessagePrimaryKey_MagicNumber(int magicNumber);
-
-    List<MessageEntity> findAllByMessagePrimaryKey_Email(String email);
-
+    @AllowFiltering
+    List<Message> findAllByEmail(String email);
 }
