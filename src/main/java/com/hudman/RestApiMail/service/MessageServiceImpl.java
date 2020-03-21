@@ -1,9 +1,11 @@
 package com.hudman.RestApiMail.service;
 
-import com.hudman.RestApiMail.entity.MessageEntity;
-import com.hudman.RestApiMail.entity.MessagePrimaryKey;
+import com.hudman.RestApiMail.entity.MessageEntityEmail;
+import com.hudman.RestApiMail.entity.MessageEntityMagicNumber;
+import com.hudman.RestApiMail.entity.MessageMagicNumberPrimaryKey;
 import com.hudman.RestApiMail.model.Message;
-import com.hudman.RestApiMail.repository.IMessagesRepository;
+import com.hudman.RestApiMail.repository.IMessagesRepositoryEmail;
+import com.hudman.RestApiMail.repository.IMessagesRepositoryMagicNumber;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -16,57 +18,59 @@ import java.util.UUID;
 public class MessageServiceImpl implements IMessageService {
 
     @Autowired
-    private IMessagesRepository messagesRepository;
+    private IMessagesRepositoryMagicNumber messagesRepositoryMagicNumber;
+
+    @Autowired
+    private IMessagesRepositoryEmail messagesRepositoryEmail;
+
+    @Autowired
+    private ConverterService converterService;
 
     @Override
-    public MessageEntity createMessage(Message message) {
-        return messagesRepository.save(requestObjectToEntity(message));
+    public MessageEntityMagicNumber createMessage(Message message) {
+        UUID uuid = UUID.randomUUID();
+        messagesRepositoryEmail.save(converterService.converterMessageEmail(message, uuid));
+        return messagesRepositoryMagicNumber.save(converterService.converterMessageMagicNumber(message, uuid));
     }
 
     @Override
-    public List<MessageEntity> getMessagesByEmail(String email) {
-        return messagesRepository.findAllByMessagePrimaryKey_Email(email);
+    public List<MessageEntityEmail> getMessagesByEmail(String email) {
+        return messagesRepositoryEmail.findAllByMessageEmailPrimaryKey_Email(email);
     }
 
     @Override
-    public List<MessageEntity> getListByMagicNumber(int magic_number) {
-        return messagesRepository.findAllByMessagePrimaryKey_MagicNumber(magic_number);
+    public MessageEntityEmail getMessageByEmail(String email) {
+        return messagesRepositoryEmail.findByMessageEmailPrimaryKey_Email(email);
     }
 
     @Override
-    public void deleteListMessages(List<MessageEntity> messageEntityList) {
-        messageEntityList.forEach(
-                message -> deleteMessage(message)
+    public List<MessageEntityMagicNumber> getListByMagicNumber(int magic_number) {
+        return messagesRepositoryMagicNumber.findAllByMessagePrimaryKey_MagicNumber(magic_number);
+    }
+
+    @Override
+    public void deleteListMessages(List<MessageEntityMagicNumber> messageEntityMagicNumberList) {
+        messageEntityMagicNumberList.forEach(
+                message -> deleteMessage(message, getMessageByEmail(message.getEmail()))
         );
     }
 
     @Override
-    public void deleteMessage(MessageEntity messageEntity) {
-        messagesRepository.delete(messageEntity);
+    public void deleteMessage(MessageEntityMagicNumber messageEntityMagicNumber, MessageEntityEmail messageEntityEmail) {
+        messagesRepositoryMagicNumber.delete(messageEntityMagicNumber);
+        messagesRepositoryEmail.delete(messageEntityEmail);
+
     }
 
     @Override
     @Scheduled(fixedRate = 10000)
     public void deleteMessagesOlderFiveMin() {
-        messagesRepository.findAll().forEach(
+        messagesRepositoryMagicNumber.findAll().forEach(
                 message -> {
                     if (message.getLocalDateTimeCreateMessage().isBefore(LocalDateTime.now().minusMinutes(5)) ||
                     message.getLocalDateTimeCreateMessage().isEqual(LocalDateTime.now().minusMinutes(5)))
-                        deleteMessage(message);
+                        deleteMessage(message, getMessageByEmail(message.getEmail()));
                 }
         );
-    }
-
-    public MessageEntity requestObjectToEntity(Message message) {
-        MessagePrimaryKey messagePrimaryKey = new MessagePrimaryKey();
-
-        messagePrimaryKey.setMagicNumber(message.getMagicNumber());
-        messagePrimaryKey.setEmail(message.getEmail());
-        messagePrimaryKey.setUuid(UUID.randomUUID());
-
-        MessageEntity messageEntity = new MessageEntity(messagePrimaryKey, LocalDateTime.now(),
-                message.getTitle(), message.getContent());
-
-        return messageEntity;
     }
 }

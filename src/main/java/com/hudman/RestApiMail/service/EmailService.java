@@ -1,6 +1,6 @@
 package com.hudman.RestApiMail.service;
 
-import com.hudman.RestApiMail.entity.MessageEntity;
+import com.hudman.RestApiMail.entity.MessageEntityMagicNumber;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -28,9 +28,9 @@ public class EmailService {
         javaMailSender.send(mailMessage);
     }
 
-    public void sendListMail(List<MessageEntity> messageEntityList) {
+    public void sendListMail(List<MessageEntityMagicNumber> messageEntityList) {
         messageEntityList.forEach(
-                value->sendMail(value.getMessagePrimaryKey().getEmail(), value.getTitle(), value.getContent())
+                value->sendMail(value.getEmail(), value.getTitle(), value.getContent())
         );
     }
 }
